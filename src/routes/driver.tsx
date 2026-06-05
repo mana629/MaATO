@@ -5,8 +5,8 @@ export const Route = createFileRoute("/driver")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Driver — AutoLink" },
-      { name: "description", content: "AutoLink driver app — go online and accept nearby passenger requests." },
+      { title: "Driver — MaATO" },
+      { name: "description", content: "MaATO driver app — go online and accept nearby passenger requests." },
     ],
   }),
   component: DriverPlaceholder,

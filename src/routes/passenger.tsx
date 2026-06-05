@@ -19,7 +19,7 @@ export const Route = createFileRoute("/passenger")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Find an auto — AutoLink" },
+      { title: "Find an auto — MaATO" },
       { name: "description", content: "See nearby shared auto-rickshaws and broadcast your destination in real time." },
     ],
   }),
@@ -230,7 +230,7 @@ function PassengerApp() {
         <div className="flex items-center justify-between gap-2 pointer-events-auto">
           <div className="flex items-center gap-2 bg-card/95 backdrop-blur px-3 py-2 rounded-full shadow-[var(--shadow-elevated)]">
             <span className="text-xl">🛺</span>
-            <span className="font-semibold">AutoLink</span>
+            <span className="font-semibold">MaATO</span>
             {profile && (
               <Badge variant="secondary" className="ml-1 font-mono text-[10px]">
                 {profile.system_id}
