@@ -8,8 +8,14 @@ import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
 import { z } from "zod";
 
+type Role = "passenger" | "driver";
+
 export const Route = createFileRoute("/auth")({
   ssr: false,
+  validateSearch: (search: Record<string, unknown>): { role: Role } => {
+    const role = search.role === "driver" ? "driver" : "passenger";
+    return { role };
+  },
   head: () => ({
     meta: [
       { title: "Sign in — AutoLink" },
@@ -21,18 +27,29 @@ export const Route = createFileRoute("/auth")({
 
 const emailSchema = z.string().trim().email("Enter a valid email").max(255);
 
+function destinationFor(role: Role) {
+  return role === "driver" ? "/driver" : "/passenger";
+}
+
 function AuthPage() {
   const navigate = useNavigate();
+  const { role } = Route.useSearch();
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [phase, setPhase] = useState<"email" | "otp">("email");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/passenger" });
+    supabase.auth.getSession().then(async ({ data }) => {
+      if (!data.session) return;
+      // Align profile role with chosen role, then redirect.
+      await supabase
+        .from("profiles")
+        .update({ role })
+        .eq("id", data.session.user.id);
+      navigate({ to: destinationFor(role) });
     });
-  }, [navigate]);
+  }, [navigate, role]);
 
   async function sendCode(e: React.FormEvent) {
     e.preventDefault();
@@ -41,7 +58,7 @@ function AuthPage() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithOtp({
       email: parsed.data,
-      options: { shouldCreateUser: true, data: { role: "passenger" } },
+      options: { shouldCreateUser: true, data: { role } },
     });
     setLoading(false);
     if (error) return toast.error(error.message);
@@ -53,12 +70,20 @@ function AuthPage() {
     e.preventDefault();
     if (otp.length < 6) return toast.error("Enter the 6-digit code");
     setLoading(true);
-    const { error } = await supabase.auth.verifyOtp({ email, token: otp, type: "email" });
+    const { data, error } = await supabase.auth.verifyOtp({ email, token: otp, type: "email" });
+    if (error) {
+      setLoading(false);
+      return toast.error(error.message);
+    }
+    if (data.user) {
+      await supabase.from("profiles").update({ role }).eq("id", data.user.id);
+    }
     setLoading(false);
-    if (error) return toast.error(error.message);
     toast.success("Signed in");
-    navigate({ to: "/passenger" });
+    navigate({ to: destinationFor(role) });
   }
+
+  const roleLabel = role === "driver" ? "Auto driver" : "Passenger";
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-background">
@@ -66,7 +91,10 @@ function AuthPage() {
         <span className="text-3xl">🛺</span> AutoLink
       </Link>
       <Card className="w-full max-w-sm p-6 shadow-[var(--shadow-elevated)]">
-        <h1 className="text-xl font-semibold">
+        <div className="text-xs font-bold uppercase tracking-wider text-primary">
+          Signing in as {roleLabel}
+        </div>
+        <h1 className="text-xl font-semibold mt-1">
           {phase === "email" ? "Sign in to AutoLink" : "Enter your code"}
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
@@ -93,6 +121,13 @@ function AuthPage() {
             <Button type="submit" className="w-full h-11" disabled={loading}>
               {loading ? "Sending…" : "Send code"}
             </Button>
+            <Link
+              to="/auth"
+              search={{ role: role === "driver" ? "passenger" : "driver" }}
+              className="block text-center text-sm text-muted-foreground hover:text-foreground"
+            >
+              Switch to {role === "driver" ? "Passenger" : "Auto driver"}
+            </Link>
           </form>
         ) : (
           <form onSubmit={verifyCode} className="mt-6 space-y-4">
