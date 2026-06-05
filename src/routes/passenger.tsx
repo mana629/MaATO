@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,9 +7,13 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { Loader2, MapPin, Minus, Plus, X, LogOut } from "lucide-react";
-import { PassengerMap, type DriverPin } from "@/components/PassengerMap";
+import type { DriverPin } from "@/components/PassengerMap";
 import { useGeolocation } from "@/hooks/useGeolocation";
 import { haversineKm } from "@/lib/system-id";
+
+const PassengerMap = lazy(() =>
+  import("@/components/PassengerMap").then((m) => ({ default: m.PassengerMap })),
+);
 
 export const Route = createFileRoute("/passenger")({
   ssr: false,
