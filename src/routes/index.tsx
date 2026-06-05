@@ -95,13 +95,15 @@ function RoleCard({
   cta: string;
   tone: "primary" | "ink";
 }) {
+  const role = to === "/passenger" ? "passenger" : "driver";
   const toneClasses =
     tone === "primary"
       ? "bg-primary text-primary-foreground hover:bg-primary/90 border-primary"
       : "bg-foreground text-background hover:bg-foreground/90 border-foreground";
   return (
     <Link
-      to={to}
+      to="/auth"
+      search={{ role }}
       className="group block rounded-3xl border-2 bg-card hover:border-foreground/40 transition-colors p-6 shadow-[var(--shadow-elevated)]"
     >
       <div className={`inline-flex items-center justify-center h-14 w-14 rounded-2xl ${toneClasses} border-2`}>

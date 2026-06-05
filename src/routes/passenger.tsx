@@ -54,7 +54,7 @@ function PassengerApp() {
     supabase.auth.getSession().then(async ({ data }) => {
       if (!mounted) return;
       if (!data.session) {
-        navigate({ to: "/auth" });
+        navigate({ to: "/auth", search: { role: "passenger" } });
         return;
       }
       const { data: prof } = await supabase
@@ -65,7 +65,7 @@ function PassengerApp() {
       if (mounted) setProfile(prof as Profile | null);
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
-      if (!session) navigate({ to: "/auth" });
+      if (!session) navigate({ to: "/auth", search: { role: "passenger" } });
     });
     return () => {
       mounted = false;
@@ -200,7 +200,7 @@ function PassengerApp() {
 
   async function signOut() {
     await supabase.auth.signOut();
-    navigate({ to: "/auth" });
+    navigate({ to: "/auth", search: { role: "passenger" } });
   }
 
   const acceptedDriverPin = activeRequest?.accepted_by ?? null;
