@@ -216,12 +216,14 @@ function PassengerApp() {
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-background">
-      <PassengerMap
-        myLocation={coords}
-        drivers={drivers}
-        pickup={pickup}
-        acceptedDriverId={acceptedDriverPin}
-      />
+      <Suspense fallback={<div className="absolute inset-0 grid place-items-center text-muted-foreground"><Loader2 className="h-6 w-6 animate-spin" /></div>}>
+        <PassengerMap
+          myLocation={coords}
+          drivers={drivers}
+          pickup={pickup}
+          acceptedDriverId={acceptedDriverPin}
+        />
+      </Suspense>
 
       {/* Top bar */}
       <header className="absolute top-0 left-0 right-0 z-10 p-3 pointer-events-none">
