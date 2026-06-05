@@ -14,7 +14,99 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      driver_profiles: {
+        Row: {
+          current_lat: number | null
+          current_lng: number | null
+          is_online: boolean
+          last_seen: string | null
+          user_id: string
+          vehicle_number: string | null
+        }
+        Insert: {
+          current_lat?: number | null
+          current_lng?: number | null
+          is_online?: boolean
+          last_seen?: string | null
+          user_id: string
+          vehicle_number?: string | null
+        }
+        Update: {
+          current_lat?: number | null
+          current_lng?: number | null
+          is_online?: boolean
+          last_seen?: string | null
+          user_id?: string
+          vehicle_number?: string | null
+        }
+        Relationships: []
+      }
+      passenger_requests: {
+        Row: {
+          accepted_by: string | null
+          created_at: string
+          destination_label: string
+          destination_lat: number | null
+          destination_lng: number | null
+          expires_at: string
+          id: string
+          passenger_count: number
+          passenger_id: string
+          pickup_lat: number
+          pickup_lng: number
+          status: string
+        }
+        Insert: {
+          accepted_by?: string | null
+          created_at?: string
+          destination_label: string
+          destination_lat?: number | null
+          destination_lng?: number | null
+          expires_at?: string
+          id?: string
+          passenger_count?: number
+          passenger_id: string
+          pickup_lat: number
+          pickup_lng: number
+          status?: string
+        }
+        Update: {
+          accepted_by?: string | null
+          created_at?: string
+          destination_label?: string
+          destination_lat?: number | null
+          destination_lng?: number | null
+          expires_at?: string
+          id?: string
+          passenger_count?: number
+          passenger_id?: string
+          pickup_lat?: number
+          pickup_lng?: number
+          status?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          id: string
+          role: string
+          system_id: string
+        }
+        Insert: {
+          created_at?: string
+          id: string
+          role?: string
+          system_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: string
+          system_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
