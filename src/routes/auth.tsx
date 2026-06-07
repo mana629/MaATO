@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
+import * as React from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -113,19 +114,19 @@ function AuthPage() {
   const roleLabel = role === "driver" ? "Auto driver" : "Passenger";
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-[#080705] text-[#eae6dd] font-sans antialiased">
-      <Link to="/" className="mb-8 flex items-center gap-3 font-medium text-lg text-[#dfb76c] tracking-wide">
-        <Logo className="h-10 w-10 text-[#dfb76c]" />
-        <span className="font-serif text-3xl font-semibold">MaATO</span>
+    <div className="min-h-screen flex flex-col items-center justify-center px-4 bg-background text-foreground font-sans antialiased">
+      <Link to="/" className="mb-8 flex items-center gap-3 font-medium text-lg text-primary tracking-wide">
+        <Logo className="h-10 w-10 text-primary" />
+        <span className="font-display text-3xl font-semibold text-primary">MaATO</span>
       </Link>
-      <Card className="w-full max-w-sm p-8 border border-[#dfb76c]/15 bg-[#12110e] text-[#eae6dd] rounded-[2rem] shadow-2xl">
-        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#dfb76c]">
+      <Card className="w-full max-w-sm p-8 border border-border bg-card text-foreground rounded-2xl shadow-md">
+        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">
           Signing in as {roleLabel}
         </div>
-        <h1 className="text-2xl font-serif text-white tracking-wide mt-2">
+        <h1 className="text-2xl font-display text-foreground tracking-wide mt-2">
           {phase === "email" ? "Sign in to MaATO" : "Enter your code"}
         </h1>
-        <p className="text-sm text-[#eae6dd]/60 mt-1 font-light">
+        <p className="text-sm text-muted-foreground mt-1 font-light">
           {phase === "email"
             ? "We'll email you a one-time code. No password needed."
             : `Sent to ${email}`}
@@ -134,7 +135,7 @@ function AuthPage() {
         {phase === "email" ? (
           <form onSubmit={sendCode} className="mt-6 space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-xs text-[#eae6dd]/70 font-semibold tracking-wider uppercase">Email</Label>
+              <Label htmlFor="email" className="text-xs text-muted-foreground font-semibold tracking-wider uppercase">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -144,16 +145,16 @@ function AuthPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="bg-[#1a1916] border-[#dfb76c]/15 text-[#eae6dd] focus:border-[#dfb76c] focus:ring-1 focus:ring-[#dfb76c] rounded-xl"
+                className="bg-muted/30 border-border text-foreground focus:border-primary focus:ring-1 focus:ring-primary rounded-xl"
               />
             </div>
-            <Button type="submit" className="w-full h-11 bg-[#dfb76c] hover:bg-[#cfa55c] text-[#080705] font-bold rounded-xl transition-all duration-300" disabled={loading}>
+            <Button type="submit" className="w-full h-11 bg-primary hover:bg-primary/95 text-primary-foreground font-bold rounded-xl transition-all duration-300" disabled={loading}>
               {loading ? "Sending…" : "Send code"}
             </Button>
             <Link
               to="/auth"
               search={{ role: role === "driver" ? "passenger" : "driver" }}
-              className="block text-center text-xs text-[#dfb76c] hover:text-[#e8c887] font-semibold tracking-wider uppercase mt-4 transition-colors"
+              className="block text-center text-xs text-primary hover:text-primary/80 font-semibold tracking-wider uppercase mt-4 transition-colors"
             >
               Switch to {role === "driver" ? "Passenger" : "Auto driver"}
             </Link>
@@ -161,7 +162,7 @@ function AuthPage() {
         ) : (
           <form onSubmit={verifyCode} className="mt-6 space-y-5">
             <div className="space-y-2">
-              <Label htmlFor="otp" className="text-xs text-[#eae6dd]/70 font-semibold tracking-wider uppercase">6-digit code</Label>
+              <Label htmlFor="otp" className="text-xs text-muted-foreground font-semibold tracking-wider uppercase">6-digit code</Label>
               <Input
                 id="otp"
                 inputMode="numeric"
@@ -170,25 +171,25 @@ function AuthPage() {
                 placeholder="123456"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                className="text-center text-lg tracking-[0.4em] bg-[#1a1916] border-[#dfb76c]/15 text-[#eae6dd] focus:border-[#dfb76c] focus:ring-1 focus:ring-[#dfb76c] rounded-xl"
+                className="text-center text-lg tracking-[0.4em] bg-muted/30 border-border text-foreground focus:border-primary focus:ring-1 focus:ring-primary rounded-xl"
                 required
               />
             </div>
-            <Button type="submit" className="w-full h-11 bg-[#dfb76c] hover:bg-[#cfa55c] text-[#080705] font-bold rounded-xl transition-all duration-300" disabled={loading}>
+            <Button type="submit" className="w-full h-11 bg-primary hover:bg-primary/95 text-primary-foreground font-bold rounded-xl transition-all duration-300" disabled={loading}>
               {loading ? "Verifying…" : "Verify & continue"}
             </Button>
             <button
               type="button"
               onClick={() => setPhase("email")}
-              className="text-xs text-[#eae6dd]/50 hover:text-[#eae6dd] w-full text-center mt-4 transition-colors"
+              className="text-xs text-muted-foreground hover:text-foreground w-full text-center mt-4 transition-colors"
             >
               Use a different email
             </button>
           </form>
         )}
       </Card>
-      <p className="mt-6 text-xs text-[#eae6dd]/40 max-w-xs text-center leading-relaxed font-light font-sans">
-        MaATO never shows your email or phone to drivers. You'll be identified only by a system ID like <span className="font-mono text-[#dfb76c] font-bold">USR-4K2M</span>.
+      <p className="mt-6 text-xs text-muted-foreground max-w-xs text-center leading-relaxed font-light font-sans">
+        MaATO never shows your email or phone to drivers. You'll be identified only by a system ID like <span className="font-mono text-primary font-bold">USR-4K2M</span>.
       </p>
     </div>
   );

@@ -6,8 +6,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-sans: "Outfit", system-ui, sans-serif;
+  --font-display: "Be Vietnam Pro", system-ui, sans-serif;
+  --font-serif: "Be Vietnam Pro", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "Inter", monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -38,64 +40,66 @@
 }
 
 :root {
-  --radius: 0.875rem;
-  /* Warm off-white background, deep ink foreground */
-  --background: oklch(0.985 0.008 80);
-  --foreground: oklch(0.18 0.02 260);
+  --radius: 0.5rem;
+  /* Surface and neutral colors */
+  --background: #f6fbf4;
+  --foreground: #181d19;
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.02 260);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.02 260);
+  --card: #ffffff;
+  --card-foreground: #181d19;
+  --popover: #ffffff;
+  --popover-foreground: #181d19;
 
-  /* Primary: warm amber/orange — "Need Auto" energy */
-  --primary: oklch(0.72 0.17 50);
-  --primary-foreground: oklch(0.99 0 0);
+  /* Primary: Auto Green */
+  --primary: #00502e;
+  --primary-foreground: #ffffff;
 
-  --secondary: oklch(0.96 0.01 80);
-  --secondary-foreground: oklch(0.22 0.02 260);
-  --muted: oklch(0.96 0.01 80);
-  --muted-foreground: oklch(0.5 0.02 260);
-  --accent: oklch(0.94 0.03 60);
-  --accent-foreground: oklch(0.22 0.02 260);
+  /* Secondary: Gold Yellow Auto Color */
+  --secondary: #725c00;
+  --secondary-foreground: #ffffff;
 
-  --destructive: oklch(0.62 0.22 25);
-  --destructive-foreground: oklch(0.99 0 0);
+  --muted: #ebefe9;
+  --muted-foreground: #3f4941;
+  --accent: #fed000;
+  --accent-foreground: #6f5900;
 
-  --border: oklch(0.9 0.012 80);
-  --input: oklch(0.9 0.012 80);
-  --ring: oklch(0.72 0.17 50);
+  --destructive: #ba1a1a;
+  --destructive-foreground: #ffffff;
+
+  --border: #bec9bf;
+  --input: #ebefe9;
+  --ring: #006b3f;
 
   /* Domain tokens */
-  --driver: oklch(0.55 0.16 240);     /* blue auto-rickshaws */
-  --passenger: oklch(0.62 0.22 25);   /* red passenger pin */
+  --driver: #0a84ff;       /* privacy blue */
+  --passenger: #782b31;    /* tertiary */
 
-  --shadow-elevated: 0 20px 50px -20px oklch(0.18 0.02 260 / 0.25);
-  --shadow-panel: 0 -8px 30px -10px oklch(0.18 0.02 260 / 0.18);
+  --shadow-elevated: 0 12px 30px -10px rgba(0, 0, 0, 0.12);
+  --shadow-panel: 0 -4px 16px rgba(0, 0, 0, 0.08);
 }
 
 .dark {
-  --background: oklch(0.16 0.02 260);
-  --foreground: oklch(0.97 0.01 80);
-  --card: oklch(0.22 0.02 260);
-  --card-foreground: oklch(0.97 0.01 80);
-  --popover: oklch(0.22 0.02 260);
-  --popover-foreground: oklch(0.97 0.01 80);
-  --primary: oklch(0.75 0.17 55);
-  --primary-foreground: oklch(0.18 0.02 260);
-  --secondary: oklch(0.28 0.02 260);
-  --secondary-foreground: oklch(0.97 0.01 80);
-  --muted: oklch(0.28 0.02 260);
-  --muted-foreground: oklch(0.72 0.02 260);
-  --accent: oklch(0.3 0.04 60);
-  --accent-foreground: oklch(0.97 0.01 80);
-  --destructive: oklch(0.65 0.22 25);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.75 0.17 55);
-  --driver: oklch(0.65 0.17 240);
-  --passenger: oklch(0.68 0.22 25);
+  --background: #181d19;
+  --foreground: #f6fbf4;
+  --card: #2d322d;
+  --card-foreground: #eef2eb;
+  --popover: #2d322d;
+  --popover-foreground: #eef2eb;
+  --primary: #81d9a2;
+  --primary-foreground: #002110;
+  --secondary: #ffe07f;
+  --secondary-foreground: #231b00;
+  --muted: #2d322d;
+  --muted-foreground: #bec9bf;
+  --accent: #edc200;
+  --accent-foreground: #231b00;
+  --destructive: #ffb3b4;
+  --destructive-foreground: #40010b;
+  --border: rgba(255, 255, 255, 0.12);
+  --input: rgba(255, 255, 255, 0.15);
+  --ring: #81d9a2;
+  --driver: #0a84ff;
+  --passenger: #ffb3b4;
 }
 
 @layer base {
@@ -133,3 +137,8 @@
 
 /* Hide default leaflet attribution noise but keep credit */
 .leaflet-container { font-family: inherit; }
+
+.privacy-mask-bg {
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.1), rgba(10, 132, 255, 0.05));
+  border: 1px solid rgba(10, 132, 255, 0.2);
+}

@@ -228,20 +228,21 @@ function PassengerApp() {
       {/* Top bar */}
       <header className="absolute top-0 left-0 right-0 z-10 p-3 pointer-events-none">
         <div className="flex items-center justify-between gap-2 pointer-events-auto">
-          <div className="flex items-center gap-2 bg-card/95 backdrop-blur px-3 py-2 rounded-full shadow-[var(--shadow-elevated)]">
+          <div className="flex items-center gap-2 bg-card/95 backdrop-blur px-3 py-2 rounded-full shadow-[var(--shadow-elevated)] border border-border">
             <span className="text-xl">🛺</span>
-            <span className="font-semibold">MaATO</span>
+            <span className="font-display font-semibold text-primary">MaATO</span>
             {profile && (
-              <Badge variant="secondary" className="ml-1 font-mono text-[10px]">
-                {profile.system_id}
-              </Badge>
+              <div className="privacy-mask-bg backdrop-blur-md px-2 py-0.5 rounded-full flex items-center gap-1 shadow-sm">
+                <span className="font-mono text-[11px] text-privacy-blue font-bold">{profile.system_id}</span>
+                <span className="material-symbols-outlined text-privacy-blue text-[12px] font-bold" style={{ fontVariationSettings: "'FILL' 1" }}>security</span>
+              </div>
             )}
           </div>
           <Button
             variant="secondary"
             size="icon"
             onClick={signOut}
-            className="rounded-full shadow-[var(--shadow-elevated)]"
+            className="rounded-full shadow-[var(--shadow-elevated)] bg-card/95 border border-border text-foreground hover:bg-muted"
             aria-label="Sign out"
           >
             <LogOut className="h-4 w-4" />
